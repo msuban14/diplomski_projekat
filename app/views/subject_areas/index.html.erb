@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Subject Areas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @subject_areas.each do |subject_area| %>
+      <tr>
+        <td><%= subject_area.name %></td>
+        <td><%= link_to 'Show', subject_area %></td>
+        <td><%= link_to 'Edit', edit_subject_area_path(subject_area) %></td>
+        <td><%= link_to 'Destroy', subject_area, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Subject Area', new_subject_area_path %>

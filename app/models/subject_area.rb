@@ -1,0 +1,2 @@
+class SubjectArea < ApplicationRecord
+end
