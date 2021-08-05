@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tags
   resources :subject_sub_areas
   resources :subject_areas
   resources :lectures
