@@ -1,0 +1,2 @@
+class QuestionDifficulty < ApplicationRecord
+end

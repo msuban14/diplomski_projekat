@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @question_difficulty.name %>
+</p>
+
+<p>
+  <strong>Numerical representation:</strong>
+  <%= @question_difficulty.numerical_representation %>
+</p>
+
+<%= link_to 'Edit', edit_question_difficulty_path(@question_difficulty) %> |
+<%= link_to 'Back', question_difficulties_path %>

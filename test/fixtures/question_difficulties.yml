@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  numerical_representation: 1
+
+two:
+  name: MyString
+  numerical_representation: 1

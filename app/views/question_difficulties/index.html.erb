@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Question Difficulties</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Numerical representation</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @question_difficulties.each do |question_difficulty| %>
+      <tr>
+        <td><%= question_difficulty.name %></td>
+        <td><%= question_difficulty.numerical_representation %></td>
+        <td><%= link_to 'Show', question_difficulty %></td>
+        <td><%= link_to 'Edit', edit_question_difficulty_path(question_difficulty) %></td>
+        <td><%= link_to 'Destroy', question_difficulty, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Question Difficulty', new_question_difficulty_path %>
