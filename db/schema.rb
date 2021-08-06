@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_114625) do
+ActiveRecord::Schema.define(version: 2021_08_06_075702) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
@@ -40,6 +40,18 @@ ActiveRecord::Schema.define(version: 2021_08_05_114625) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.string "content"
+    t.integer "question_type_id", null: false
+    t.integer "lecture_id", null: false
+    t.integer "question_difficulty_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lecture_id"], name: "index_questions_on_lecture_id"
+    t.index ["question_difficulty_id"], name: "index_questions_on_question_difficulty_id"
+    t.index ["question_type_id"], name: "index_questions_on_question_type_id"
+  end
+
   create_table "subject_areas", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -61,5 +73,8 @@ ActiveRecord::Schema.define(version: 2021_08_05_114625) do
   end
 
   add_foreign_key "lectures", "courses"
+  add_foreign_key "questions", "lectures"
+  add_foreign_key "questions", "question_difficulties"
+  add_foreign_key "questions", "question_types"
   add_foreign_key "subject_sub_areas", "subject_areas"
 end
