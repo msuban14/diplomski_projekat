@@ -5,6 +5,8 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.association :subject_sub_areas, as: :check_boxes %>
+    <%= f.association :questions, as: :check_boxes %>
   </div>
 
   <div class="form-actions">

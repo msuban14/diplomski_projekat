@@ -64,6 +64,6 @@ class SubjectSubAreasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def subject_sub_area_params
-      params.require(:subject_sub_area).permit(:name, :subject_area_id)
+      params.require(:subject_sub_area).permit(:name, :subject_area_id, :lecture_ids => [], :tag_ids => [])
     end
 end

@@ -7,6 +7,7 @@
     <%= f.input :name %>
     <%= f.input :week %>
     <%= f.association :course %>
+    <%= f.association :subject_sub_areas, as: :check_boxes %>
   </div>
 
   <div class="form-actions">

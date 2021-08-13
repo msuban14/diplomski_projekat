@@ -64,6 +64,6 @@ class TagsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tag_params
-      params.require(:tag).permit(:name)
+      params.require(:tag).permit(:name, :subject_sub_area_ids => [], :question_ids => [])
     end
 end
