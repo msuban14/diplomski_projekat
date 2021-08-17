@@ -56,6 +56,19 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def lectures
+    #branch import types, maybe import_params to procure needed params, such as import type and additional data
+    #p "******************************"
+    #p params
+    #p "******************************"
+    #p 'import type: ' + params[:import_type]
+
+    #Question.import_aiken(params[:file],params[:lecture_id])
+    @questions = Question.where(lecture_id: params[:id]).order(created_at: :desc)
+
+    #users = User.where(name: 'David', occupation: 'Code Artist').order(created_at: :desc)
+
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_question
@@ -66,4 +79,6 @@ class QuestionsController < ApplicationController
     def question_params
       params.require(:question).permit(:content, :question_type_id, :lecture_id, :question_difficulty_id, :tag_ids => [])
     end
+
+
 end

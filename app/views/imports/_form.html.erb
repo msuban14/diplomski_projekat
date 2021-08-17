@@ -1,0 +1,28 @@
+<%= form_with(model: import) do |form| %>
+  <% if import.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(import.errors.count, "error") %> prohibited this import from being executed:</h2>
+
+      <ul>
+        <% import.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-inputs">
+    <%= form.label :import_type %>
+    <%= form.select :import_type, [["Aiken", "0"], ["Gift", "1"], ["XML", "2"]] %>
+
+    <%= form.label 'lecture' %>
+    <%= form.collection_select :lecture_id , Lecture.order(:name), :id, :name%>
+
+    <%= form.label 'Select a file'%>
+    <%= form.file_field :file %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit 'upload'%>
+  </div>
+<% end %>

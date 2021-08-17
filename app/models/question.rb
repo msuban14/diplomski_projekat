@@ -3,6 +3,7 @@ class Question < ApplicationRecord
   belongs_to :lecture
   belongs_to :question_difficulty
   has_and_belongs_to_many :tags
+  has_many :answers, dependent: :destroy
   #TODO self join
   validates :content, presence: true, length: { maximum: 1024 }
 
@@ -10,5 +11,7 @@ class Question < ApplicationRecord
   def to_label
     content.length < 128 ? "#{content}" : "#{content[0..127]...}"
   end
+
+
 
 end

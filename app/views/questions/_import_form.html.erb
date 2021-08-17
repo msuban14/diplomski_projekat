@@ -1,0 +1,14 @@
+
+<h3>Import questions</h3>
+
+
+<%= form_with url:'/questions/import', multipart:true do |form| %>
+  <div class="form-inputs">
+    <%= form.collection_select :lecture_id , Lecture.order(:name), :id, :name%>
+    <%= form.select :input_type, [["Aiken", "0"], ["Gift", "1"], ["XML", "2"]] %>
+    <%= form.file_field :file %>
+  </div>
+  <div class="form-actions">
+    <%= form.submit%>
+  </div>
+<% end %>
