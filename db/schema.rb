@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_084405) do
+ActiveRecord::Schema.define(version: 2021_09_03_160637) do
 
   create_table "answers", force: :cascade do |t|
     t.text "content"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_08_11_084405) do
     t.integer "question_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "additional_info"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
@@ -63,6 +64,10 @@ ActiveRecord::Schema.define(version: 2021_08_11_084405) do
     t.integer "question_difficulty_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "dependant_question_id"
+    t.string "format"
+    t.text "additional_info"
+    t.index ["dependant_question_id"], name: "index_questions_on_dependant_question_id"
     t.index ["lecture_id"], name: "index_questions_on_lecture_id"
     t.index ["question_difficulty_id"], name: "index_questions_on_question_difficulty_id"
     t.index ["question_type_id"], name: "index_questions_on_question_type_id"
@@ -107,5 +112,6 @@ ActiveRecord::Schema.define(version: 2021_08_11_084405) do
   add_foreign_key "questions", "lectures"
   add_foreign_key "questions", "question_difficulties"
   add_foreign_key "questions", "question_types"
+  add_foreign_key "questions", "questions", column: "dependant_question_id"
   add_foreign_key "subject_sub_areas", "subject_areas"
 end

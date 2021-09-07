@@ -16,4 +16,7 @@ Rails.application.routes.draw do
 
   get 'imports' , to: 'imports#new'
   post 'imports', to: 'imports#create'
+
+  #tmp root
+  root to: 'imports#new'
 end

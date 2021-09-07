@@ -17,9 +17,9 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.content %></td>
-        <td><%= question.question_type_id %></td>
-        <td><%= question.lecture_id %></td>
-        <td><%= question.question_difficulty_id %></td>
+        <td><%= question.question_type.name %></td>
+        <td><%= question.lecture.name %></td>
+        <td><%= question.question_difficulty.name %></td>
         <td><%= link_to 'Show', question %></td>
         <td><%= link_to 'Edit', edit_question_path(question) %></td>
         <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
