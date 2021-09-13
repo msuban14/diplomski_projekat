@@ -9,6 +9,8 @@ class Question < ApplicationRecord
   belongs_to :dependant_question, class_name: "Question", optional: true
 
   validates :content, presence: true, length: { maximum: 4096 }
+  #maybe it will slow too much the import
+  validates_uniqueness_of :content, scope: %i[question_type_id lecture_id]
   serialize :additional_info
 
 

@@ -13,7 +13,7 @@
 
   <div class="form-inputs">
     <%= form.label :import_type %>
-    <%= form.select :import_type, [["Aiken", "0"], ["Gift", "1"], ["XML", "2"]] %>
+    <%= form.select :import_type, [["Aiken", 0], ["XML", 1]] %>
 
     <%= form.label 'lecture' %>
     <%= form.collection_select :lecture_id , Lecture.order(:name), :id, :name%>

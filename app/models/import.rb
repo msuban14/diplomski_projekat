@@ -2,20 +2,13 @@ class Import
   include ActiveModel::Model
 
   attr_accessor :import_type, :file, :lecture_id
-  validates :import_type, presence:true
+  validates :import_type, presence:true, numericality: { only_integer: true, greater_than_or_equal_to: 0 , less_than: 2 }
   validates :file, presence:true
   validates :lecture_id, presence: true
 
   def import
-    #p import_type
-    #p '*******************'
-    #p file
-    #p '*******************'
-    #p lecture_id
     if import_type.to_i == 0
       import_aiken(file, lecture_id)
-    elsif import_type.to_i == 1
-      import_gift(file, lecture_id)
     else
       import_xml(file, lecture_id)
     end
@@ -43,7 +36,7 @@ class Import
         line.slice!("ANSWER:")
         line.strip
         #correctA = line
-        if question.save!
+        if question.save
           answers.each do |a|
             a.question_id = question.id
             ano = a.content.slice!((/[[:upper:]]+\)/))
@@ -65,11 +58,7 @@ class Import
           q.lecture_id = lecture_id
           q.question_difficulty_id = QuestionDifficulty.find_by(numerical_representation: 0).id
         end
-        #question.save!
       else
-        #p'answer'
-        #a = Answer.new or call class method of Answer p.e. Answer.import
-        #help = line.slice!(/[[:upper:]]+\)/)
         answer = Answer.new do |a|
           a.content = line
           a.isCorrect = false
@@ -77,20 +66,9 @@ class Import
         answers << answer
       end
     end
-
     f.close
-    #p 'file closed'
   end
 
-  def import_gift(file, lecture_id)
-
-
-    #questionTypes = Hash.new
-    #QuestionType.all.each {|qt| questionTypes[qt.name.to_s] = qt.id}
-
-
-
-  end
 
   def import_xml(file, lecture_id)
     question_diff = QuestionDifficulty.find_by(numerical_representation: 0).id
