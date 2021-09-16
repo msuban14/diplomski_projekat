@@ -17,6 +17,11 @@ Rails.application.routes.draw do
   get 'imports' , to: 'imports#new'
   post 'imports', to: 'imports#create'
 
+  get 'exports' , to: 'exports#new'
+  post 'exports', to: 'exports#create'
+  get 'exports/download', to: 'exports#download'
+
+
   #tmp root
   root to: 'imports#new'
 end

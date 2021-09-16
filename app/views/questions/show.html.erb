@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 <p>
   <strong>Content:</strong>
@@ -7,18 +7,26 @@
 
 <p>
   <strong>Question type:</strong>
-  <%= @question.question_type_id %>
+  <%= @question.question_type.name %>
 </p>
 
 <p>
   <strong>Lecture:</strong>
-  <%= @question.lecture_id %>
+  <%= @question.lecture.name %>
 </p>
 
 <p>
   <strong>Question difficulty:</strong>
-  <%= @question.question_difficulty_id %>
+  <%= @question.question_difficulty.name %>
 </p>
+
+<% if @question.question_type.name == "matching" and @question.dependant_question== nil%>
+  <%= render 'questions/questions_list'%>
+<% elsif @question.answers.any? %>
+  <%= render 'answers/answers_list'%>
+<% else %>
+  <p> This question does not have a predetermined answer </p>
+<% end %>
 
 <%= link_to 'Edit', edit_question_path(@question) %> |
 <%= link_to 'Back', questions_path %>

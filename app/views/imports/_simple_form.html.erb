@@ -1,0 +1,14 @@
+<%= simple_form_for@import, html:{multipart: true} do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :import_type, collection: [["Aiken", 0], ["XML", 1]] %>
+    <%= f.input :lecture_id , collection:Course.order(:name), as: :grouped_select, group_method: :lectures%>
+    <%= f.input :file, as: :file %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

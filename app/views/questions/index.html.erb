@@ -1,32 +1,8 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>Questions</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th>Question type</th>
-      <th>Lecture</th>
-      <th>Question difficulty</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @questions.each do |question| %>
-      <tr>
-        <td><%= question.content %></td>
-        <td><%= question.question_type.name %></td>
-        <td><%= question.lecture.name %></td>
-        <td><%= question.question_difficulty.name %></td>
-        <td><%= link_to 'Show', question %></td>
-        <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'questions/questions_list', questions:@questions%>
 
 <br>
 

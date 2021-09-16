@@ -16,7 +16,7 @@
     <%= form.select :import_type, [["Aiken", 0], ["XML", 1]] %>
 
     <%= form.label 'lecture' %>
-    <%= form.collection_select :lecture_id , Lecture.order(:name), :id, :name%>
+    <%= form.grouped_collection_select :lecture_id, Course.order(:name), :lectures ,:name, :id, :name %>
 
     <%= form.label 'Select a file'%>
     <%= form.file_field :file %>

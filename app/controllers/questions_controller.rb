@@ -8,6 +8,13 @@ class QuestionsController < ApplicationController
 
   # GET /questions/1 or /questions/1.json
   def show
+    if @question.question_type.name == "matching" and @question.dependant_question== nil
+      @questions = @question.subquestions
+    end
+
+    if @question.answers.any?
+      @answers = @question.answers
+    end
   end
 
   # GET /questions/new

@@ -14,6 +14,8 @@ class ImportsController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @import.errors, status: :unprocessable_entity }
+        #@import.errors.each {|e| flash.now[:error]="#{e.full_message}"}
+        #flash.now[:notice] = "We have exactly #{@books.size} books available."
       end
     end
   end

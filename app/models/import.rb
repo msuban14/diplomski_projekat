@@ -115,14 +115,14 @@ class Import
       question.question_difficulty_id = question_diff
       question.additional_info = questionDetails
 
-      answer = Answer.new
+      #answer = Answer.new
       #save question - without raising an exception
       if  question.save and questionType != "essay" and questionType != "cloze"
         #search answers
 
         if questionType != "matching"
           tag.css('answer').each do |a|
-
+            answer = Answer.new
             answer.content = a.inner_text.chomp.strip
             answer.isCorrect = (a.attributes["fraction"].value.to_i > 0)
             a.children.each do |achild|
