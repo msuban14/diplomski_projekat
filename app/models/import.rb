@@ -21,7 +21,9 @@ class Import
 
   def import_aiken(file, lecture_id)
     #logic for importin aiken
-    ## TODO: fetch default values here
+    #only multichoice for aiken format
+    question_type = QuestionType.find_by(name: 'multichoice').id
+    question_difficulty=QuestionDifficulty.find_by(numerical_representation: 0).id
     answers = Array.new
     question = Question.new
     answer = Answer.new
@@ -54,9 +56,9 @@ class Import
 
         question = Question.new do |q|
           q.content = line.chomp.strip
-          q.question_type_id = QuestionType.find_by(name: 'multichoice').id
+          q.question_type_id = question_type
           q.lecture_id = lecture_id
-          q.question_difficulty_id = QuestionDifficulty.find_by(numerical_representation: 0).id
+          q.question_difficulty_id = question_difficulty
         end
       else
         answer = Answer.new do |a|
