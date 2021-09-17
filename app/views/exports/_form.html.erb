@@ -4,7 +4,7 @@
 
   <div class="form-inputs">
     <%= f.input :export_type, collection: [["Aiken", 0], ["XML", 1]] %>
-    <%= f.input :question_areas %>
+    <%= f.input :question_areas, collection: Lecture.all, input_html: {multiple: true}, as: :check_boxes %>
     <%= f.input :number_of_questions %>
   </div>
 

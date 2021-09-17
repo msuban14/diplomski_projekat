@@ -19,7 +19,8 @@ Rails.application.routes.draw do
 
   get 'exports' , to: 'exports#new'
   post 'exports', to: 'exports#create'
-  get 'exports/download', to: 'exports#download'
+  get 'exports/download/aiken', to: 'exports#download_aiken'
+  get 'exports/download/xml', to: 'exports#download_xml'
 
 
   #tmp root

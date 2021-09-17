@@ -53,14 +53,14 @@ class Import
       elsif line.match(/[[:upper:]]+\)/) == nil
 
         question = Question.new do |q|
-          q.content = line
+          q.content = line.chomp.strip
           q.question_type_id = QuestionType.find_by(name: 'multichoice').id
           q.lecture_id = lecture_id
           q.question_difficulty_id = QuestionDifficulty.find_by(numerical_representation: 0).id
         end
       else
         answer = Answer.new do |a|
-          a.content = line
+          a.content = line.chomp.strip
           a.isCorrect = false
         end
         answers << answer
