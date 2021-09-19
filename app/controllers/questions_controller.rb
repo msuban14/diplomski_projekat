@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.all
+    @questions = Question.where(dependant_question: nil)
   end
 
   # GET /questions/1 or /questions/1.json

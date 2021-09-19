@@ -23,7 +23,7 @@ class Import
     #logic for importin aiken
     #only multichoice for aiken format
     question_type = QuestionType.find_by(name: 'multichoice').id
-    question_difficulty=QuestionDifficulty.find_by(numerical_representation: 0).id
+    question_difficulty=QuestionDifficulty.find_by(name: 'default').id
     answers = Array.new
     question = Question.new
     answer = Answer.new
@@ -73,7 +73,7 @@ class Import
 
 
   def import_xml(file, lecture_id)
-    question_diff = QuestionDifficulty.find_by(numerical_representation: 0).id
+    question_diff = QuestionDifficulty.find_by(name: "default").id
     questionTypes = Hash.new
     QuestionType.all.each {|qt| questionTypes[qt.name.to_s] = qt.id}
 

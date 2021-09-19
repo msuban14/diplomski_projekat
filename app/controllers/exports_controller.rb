@@ -1,23 +1,35 @@
 class ExportsController < ApplicationController
+
+
+
+  def showall
+    @courses = Course.all
+  end
+
   def new
     @export = Export.new
-    #@course = Course.first
+    @course = Course.find(params[:id])
   end
 
   def create
     @export =Export.new(export_params)
+    course_id =params.require(:export).permit(:course_id)
+
+    @course = Course.find(course_id["course_id"])
 
     respond_to do |format|
       if @export.valid?
         @export.export
-        if @export.export_type == 1
+        if @export.export_type.to_i == 0
           format.html { redirect_to exports_download_aiken_path }
         else
           format.html { redirect_to exports_download_xml_path }
         end
 
       else
+        #format.html { render :new,:location => export_path(@course), status: :unprocessable_entity }
         format.html { render :new, status: :unprocessable_entity }
+
         format.json { render json: @import.errors, status: :unprocessable_entity }
 
       end
@@ -30,7 +42,6 @@ class ExportsController < ApplicationController
         filename: "export_aiken.txt",
         type: "application/txt"
       )
-      #redirect_to exports_path
   end
 
   def download_xml

@@ -6,37 +6,133 @@ attr_accessor :export_type, :question_areas, :number_of_questions
 
 #validation
 validates :export_type, presence:true, numericality: { only_integer: true, greater_than_or_equal_to: 0 , less_than: 2 }
-validates :number_of_questions, presence:true, numericality: {only_integer: true}
+validates :number_of_questions, presence:true, numericality: {only_integer: true, greater_than: 0 }
 validates :question_areas, presence:true
+validate :number_of_questions_cannot_exceed_total
 
 APATH = "#{Rails.root}/public/files/export_aiken.txt"
 XPATH = "#{Rails.root}/public/files/export_xml.xml"
 
 
 def export
-if export_type.to_i == 0
-  export_aiken()
-else
-  export_xml()
+  if export_type.to_i == 0
+    export_aiken()
+  else
+    export_xml()
+  end
 end
 
 
-#aiken()
-end
 
 private
 
-def export_aiken
+def number_of_questions_cannot_exceed_total
+
   lecture_ids = question_areas.reject {|qa| qa.empty? }
   if lecture_ids == nil then lecture_ids = question_areas end
+
+  question_difficulty_id = QuestionDifficulty.find_by(name: "default").id
+  if export_type.to_i == 0
+    question_type_id = QuestionType.find_by(name: "multichoice").id
+    #@questions = Question.where('lecture_id IN (?) AND question_type_id=? AND question_difficulty_id!=?', lecture_ids,question_type_id,question_difficulty_id )
+    questions = Question.where(lecture_id: lecture_ids, question_type_id: question_type_id).to_a
+  else
+    #@questions = Question.where('lecture_id IN (?) AND dependant_question_id IS NULL AND question_difficulty_id!=?', lecture_ids, question_difficulty_id)
+    questions = Question.where(lecture_id: lecture_ids, dependant_question_id: nil).to_a
+  end
+
+  size = questions.size.to_i
+
+  if size < number_of_questions.to_i
+    errors.add(:number_of_questions,"can't be greater than total of questions with assigned difficulties for this course(#{size})")
+  else
+    generate_test_questions(questions)
+  end
+end
+
+def calculate_average_difficulty(questions)
+  sum=0
+  questions.each {|q| sum=sum+q.difficulty}
+  sum/questions.size.to_f
+end
+
+def calculate_total_difficulty(questions)
+  sum = 0
+  questions.each {|q| sum=sum+q.difficulty}
+  return sum
+end
+
+def generate_test_questions(questions_array)
+  random_questions = Array.new(number_of_questions.to_i)
+  avg = calculate_average_difficulty(questions_array)
+  min_target = ((number_of_questions.to_i - avg.to_i * 2) * avg).to_i
+  max_target = (number_of_questions.to_i  * avg).ceil.to_i
+  random_questions=questions_array.sample(number_of_questions.to_i)
+  total_difficulty=calculate_total_difficulty(random_questions)
+
+  j=0
+  p avg
+  p total_difficulty
+
+  p min_target..max_target
+
+  p (min_target..max_target).include?(total_difficulty)
+  while (min_target..max_target).include?(total_difficulty) == false
+    random_questions.sort_by(&:difficulty)
+    p 'while1 start after sort'
+    random_questions.sort! {|a,b| a.difficulty <=> b.difficulty }
+    if total_difficulty < min_target
+      random_questions.shift
+      p 'shift'
+    else
+      random_questions.pop
+      p 'pop'
+      random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
+    end
+
+    i = 0
+
+
+
+    loop do
+      new_q = questions_array.sample
+      p "new id:#{new_q.id}"
+      random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
+      i = i +1
+      if !random_questions.include?(new_q) then
+        random_questions.append(new_q)
+        break
+      end
+      if i>5 then break end
+    end
+
+    total_difficulty = calculate_total_difficulty(random_questions)
+    j = j +1
+
+    p random_questions
+    p total_difficulty
+    p min_target..max_target
+    p "while1 end"
+    break if j>5
+  end
+
+  random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
+  p total_difficulty
+  p min_target..max_target
+  @questions = random_questions
+end
+
+def export_aiken
+  #lecture_ids = question_areas.reject {|qa| qa.empty? }
+  #if lecture_ids == nil then lecture_ids = question_areas end
 
   File.delete(APATH) if File.exist?(APATH)
 
   file = File.open(APATH,"w")
   #TODO testing purposes
-  question_type_id = QuestionType.find_by(name: "multichoice").id
-  questions = Question.where(lecture_id: lecture_ids, question_type_id: question_type_id).limit(number_of_questions.to_i)
-  questions.each do |question|
+  #question_type_id = QuestionType.find_by(name: "multichoice").id
+  #questions = Question.where(lecture_id: lecture_ids, question_type_id: question_type_id).limit(number_of_questions.to_i)
+  @questions.each do |question|
     i=65
     correctA = ""
     file.write("#{question.content}\n")
@@ -53,17 +149,15 @@ end
 
 def export_xml()
   #TODO add my tags and templates
-  lecture_ids = question_areas.reject {|qa| qa.empty? }
-  if lecture_ids == nil then lecture_ids = question_areas end
+  #lecture_ids = question_areas.reject {|qa| qa.empty? }
+  #if lecture_ids == nil then lecture_ids = question_areas end
 
-  #File.delete(APATH) if File.exist?(APATH)
 
-  #file = File.open(APATH,"w")
-  questions = Question.where(lecture_id: lecture_ids, dependant_question_id: nil).limit(number_of_questions.to_i)
+  #questions = Question.where(lecture_id: lecture_ids, dependant_question_id: nil).limit(number_of_questions.to_i)
 
   builder = Nokogiri::XML::Builder.new do |xml|
     xml.quiz {
-      questions.each do |q|
+      @questions.each do |q|
         xml.question(:type => q.question_type.name) {
           title = nil
           if q.additional_info!= nil and !q.additional_info.empty? then title = q.additional_info["name"] end

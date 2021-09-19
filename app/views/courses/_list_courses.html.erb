@@ -1,0 +1,5 @@
+<div class="list-group">
+  <% @courses.each do |course| %>
+    <%= link_to "#{course.name}" , export_path(course), class: "list-group-item list-group-item-action list-group-item-light"%>
+  <% end %>
+</div>

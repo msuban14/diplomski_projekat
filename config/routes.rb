@@ -14,10 +14,12 @@ Rails.application.routes.draw do
   resources :courses
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
+
   get 'imports' , to: 'imports#new'
   post 'imports', to: 'imports#create'
 
-  get 'exports' , to: 'exports#new'
+  get 'exports', to: 'exports#showall'
+  get 'exports/:id' , to: 'exports#new', as: 'export'
   post 'exports', to: 'exports#create'
   get 'exports/download/aiken', to: 'exports#download_aiken'
   get 'exports/download/xml', to: 'exports#download_xml'

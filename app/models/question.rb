@@ -18,6 +18,10 @@ class Question < ApplicationRecord
     content.length < 128 ? "#{content}" : "#{content[0..127]...}"
   end
 
+  def difficulty
+    question_difficulty.numerical_representation.to_i
+  end
+
 
 
 end
