@@ -70,68 +70,49 @@ def generate_test_questions(questions_array)
   random_questions=questions_array.sample(number_of_questions.to_i)
   total_difficulty=calculate_total_difficulty(random_questions)
 
-  j=0
-  p avg
-  p total_difficulty
+  #p avg
+  #p total_difficulty
+  #p min_target..max_target
+  #p (min_target..max_target).include?(total_difficulty)
 
-  p min_target..max_target
-
-  p (min_target..max_target).include?(total_difficulty)
   while (min_target..max_target).include?(total_difficulty) == false
     random_questions.sort_by(&:difficulty)
-    p 'while1 start after sort'
+    #p 'while1 start after sort'
     random_questions.sort! {|a,b| a.difficulty <=> b.difficulty }
     if total_difficulty < min_target
       random_questions.shift
-      p 'shift'
+      #p 'shift'
     else
       random_questions.pop
-      p 'pop'
-      random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
+      #p 'pop'
     end
-
-    i = 0
-
-
 
     loop do
       new_q = questions_array.sample
-      p "new id:#{new_q.id}"
-      random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
-      i = i +1
       if !random_questions.include?(new_q) then
         random_questions.append(new_q)
         break
       end
-      if i>5 then break end
     end
 
     total_difficulty = calculate_total_difficulty(random_questions)
-    j = j +1
 
-    p random_questions
-    p total_difficulty
-    p min_target..max_target
-    p "while1 end"
-    break if j>5
+    #p total_difficulty
+    #p min_target..max_target
+    #p "while1 end"
   end
 
   random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
   p total_difficulty
   p min_target..max_target
-  @questions = random_questions
+  @questions = random_questions.shuffle
 end
 
 def export_aiken
-  #lecture_ids = question_areas.reject {|qa| qa.empty? }
-  #if lecture_ids == nil then lecture_ids = question_areas end
 
   File.delete(APATH) if File.exist?(APATH)
 
   file = File.open(APATH,"w")
-  #TODO testing purposes
-  #question_type_id = QuestionType.find_by(name: "multichoice").id
-  #questions = Question.where(lecture_id: lecture_ids, question_type_id: question_type_id).limit(number_of_questions.to_i)
   @questions.each do |question|
     i=65
     correctA = ""
@@ -149,11 +130,6 @@ end
 
 def export_xml()
   #TODO add my tags and templates
-  #lecture_ids = question_areas.reject {|qa| qa.empty? }
-  #if lecture_ids == nil then lecture_ids = question_areas end
-
-
-  #questions = Question.where(lecture_id: lecture_ids, dependant_question_id: nil).limit(number_of_questions.to_i)
 
   builder = Nokogiri::XML::Builder.new do |xml|
     xml.quiz {
