@@ -38,7 +38,7 @@ class ExportsController < ApplicationController
 
   def download_aiken
     send_file(
-        Rails.root + "public/files/export_aiken.txt",
+        Rails.root + "public/export_aiken.txt",
         filename: "export_aiken.txt",
         type: "application/txt"
       )
@@ -46,7 +46,7 @@ class ExportsController < ApplicationController
 
   def download_xml
     send_file(
-        Rails.root + "public/files/export_xml.xml",
+        Rails.root + "public/export_xml.xml",
         filename: "export_xml.xml",
         type: "application/xml"
       )

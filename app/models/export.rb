@@ -10,8 +10,8 @@ validates :number_of_questions, presence:true, numericality: {only_integer: true
 validates :question_areas, presence:true
 validate :number_of_questions_cannot_exceed_total
 
-APATH = Rails.root + "public/files/export_aiken.txt"
-XPATH = Rails.root + "public/files/export_xml.xml"
+APATH = Rails.root + "public/export_aiken.txt"
+XPATH = Rails.root + "public/export_xml.xml"
 
 
 def export
