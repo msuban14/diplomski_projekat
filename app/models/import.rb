@@ -68,6 +68,7 @@ class Import
         answers << answer
       end
     end
+    answers.clear
     f.close
   end
 

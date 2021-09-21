@@ -30,6 +30,8 @@ def number_of_questions_cannot_exceed_total
 
   lecture_ids = question_areas.reject {|qa| qa.empty? }
   if lecture_ids == nil then lecture_ids = question_areas end
+  lecture_ids.map! {|l| l.split}
+  lecture_ids.flatten!.uniq!
 
   question_difficulty_id = QuestionDifficulty.find_by(name: "default").id
   if export_type.to_i == 0
@@ -102,9 +104,9 @@ def generate_test_questions(questions_array)
     #p "while1 end"
   end
 
-  random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
-  p total_difficulty
-  p min_target..max_target
+  #random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
+  #p total_difficulty
+  #p min_target..max_target
   @questions = random_questions.shuffle
 end
 
