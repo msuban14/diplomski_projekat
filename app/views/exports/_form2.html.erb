@@ -6,13 +6,29 @@
     <%= f.input :course_id, :as => :hidden, :input_html => {:value => @course.id}%>
     <%= f.input :export_type, collection: [["Aiken", 0], ["XML", 1]] %>
 
+    <%= f.input :select_type, :as => :hidden, :input_html => {:value => "lectures"}%>
+<div class="dropdown">
+  <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+  Choose select option
+  </a>
 
-    <div id="switch_button" class="btn btn-outline-info" onclick="switch_select()">Select by subject areas</div>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><div class="btn dropdown-item" onclick="set_lectures_view()" >Select by lectures</div></li>
+    <li><div class="btn dropdown-item" onclick="set_areas_view()" >Select by subject areas</div></li>
+    <li><div class="btn dropdown-item" onclick="set_sub_areas_view()" >Select by subject sub areas</div></li>
+    </ul>
+</div>
+
+
+
+
+
+  <!--  <div id="switch_button" class="btn btn-outline-info" onclick="switch_select()">Select by subject areas</div> -->
 
     <div id="select_lectures">
     <%= f.label "Please select lectures", class:"form-label"%>
     <div class="border border-1">
-    <%= f.collection_check_boxes :question_areas,  @course.lectures, :id, :name, {:prompt => 'Please select lectures'},{:multiple => true} do |check|%>
+    <%= f.collection_check_boxes :question_lectures,  @course.lectures, :id, :name, {:prompt => 'Please select lectures'},{:multiple => true} do |check|%>
       <div class="form-check ">
         <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
       </div>
@@ -24,7 +40,18 @@
     <div id="select_areas">
     <%= f.label "Please select areas", class:"form-label"%>
     <div class="border border-1">
-    <%= f.collection_check_boxes :question_areas, SubjectSubArea.joins(:lectures).merge(@course.lectures).uniq , :lecture_ids, :name ,{:multiple => true} do |check|%>
+    <%= f.collection_check_boxes :question_areas, SubjectArea.joins(subject_sub_areas: :lectures).merge(@course.lectures).uniq , :id, :name ,{:multiple => true} do |check|%>
+      <div class="form-check ">
+        <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
+      </div>
+    <% end %>
+    </div>
+    </div>
+
+    <div id="select_sub_areas">
+    <%= f.label "Please select sub areas", class:"form-label"%>
+    <div class="border border-1">
+    <%= f.collection_check_boxes :question_sub_areas, SubjectSubArea.joins(:lectures).merge(@course.lectures).uniq , :id, :name ,{:multiple => true} do |check|%>
       <div class="form-check ">
         <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
       </div>
@@ -41,21 +68,43 @@
     <%= f.button :submit %>
   </div>
 <% end %>
+
 <script type="text/javascript">
-  function switch_select(){
+
+
+  function set_lectures_view(){
+    //console.log("lecture");
+    var hidden_field = document.getElementById("export_select_type");
     var l_view = document.getElementById("select_lectures");
     var sa_view = document.getElementById("select_areas");
-    var b = document.getElementById("switch_button");
+    var ssa_view = document.getElementById("select_sub_areas");
+    hidden_field.value = "lectures"
+    l_view.style.display = "block"
+    sa_view.style.display = "none"
+    ssa_view.style.display = "none"
+  }
 
-    if (l_view.style.display === "none" && sa_view.style.display === "block"){
-      sa_view.style.display = "none";
-      l_view.style.display = "block";
-      b.innerHTML = "Select by subject areas";
-    }
-    else{
-      l_view.style.display = "none";
-      sa_view.style.display = "block";
-      b.innerHTML = "Select by lectures";
-    }
+  function set_areas_view(){
+    //console.log("areas");
+    var hidden_field = document.getElementById("export_select_type");
+    var l_view = document.getElementById("select_lectures");
+    var sa_view = document.getElementById("select_areas");
+    var ssa_view = document.getElementById("select_sub_areas");
+    hidden_field.value = "areas"
+    l_view.style.display = "none"
+    sa_view.style.display = "block"
+    ssa_view.style.display = "none"
+  }
+
+  function set_sub_areas_view(){
+    //console.log("sub_areas");
+    var hidden_field = document.getElementById("export_select_type");
+    var l_view = document.getElementById("select_lectures");
+    var sa_view = document.getElementById("select_areas");
+    var ssa_view = document.getElementById("select_sub_areas");
+    hidden_field.value = "sub_areas"
+    l_view.style.display = "none"
+    sa_view.style.display = "none"
+    ssa_view.style.display = "block"
   }
 </script>

@@ -13,9 +13,10 @@ class ExportsController < ApplicationController
 
   def create
     @export =Export.new(export_params)
-    course_id =params.require(:export).permit(:course_id)
+    #course_id =params.require(:export).permit(:course_id)
 
-    @course = Course.find(course_id["course_id"])
+
+    @course = Course.find(@export.course_id.to_i)
 
     respond_to do |format|
       if @export.valid?
@@ -50,14 +51,13 @@ class ExportsController < ApplicationController
         filename: "export_xml.xml",
         type: "application/xml"
       )
-      #redirect_to exports_path
   end
 
 
   private
 
   def export_params
-    params.require(:export).permit(:export_type,  :number_of_questions, :question_areas => [])
+    params.require(:export).permit(:export_type,:course_id, :select_type ,:number_of_questions, :question_lectures => [], :question_areas => [], :question_sub_areas => [])
     #params.require(:export).permit(:export_type)
   end
 end

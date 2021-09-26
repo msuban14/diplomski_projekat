@@ -2,13 +2,15 @@ class Export
   include ActiveModel::Model
 
 
-attr_accessor :export_type, :question_areas, :number_of_questions
+attr_accessor :export_type, :select_type, :question_lectures, :question_sub_areas,:question_areas, :number_of_questions, :course_id
 
 #validation
+
 validates :export_type, presence:true, numericality: { only_integer: true, greater_than_or_equal_to: 0 , less_than: 2 }
 validates :number_of_questions, presence:true, numericality: {only_integer: true, greater_than: 0 }
-validates :question_areas, presence:true
+#validates :question_areas, presence:true
 validate :number_of_questions_cannot_exceed_total
+
 
 APATH = Rails.root + "public/export_aiken.txt"
 XPATH = Rails.root + "public/export_xml.xml"
@@ -26,21 +28,57 @@ end
 
 private
 
+def set_lecture_ids
+  #do i join on course_id to be sure?
+  @lecture_ids = Array.new
+  if select_type == "lectures"
+    @lecture_ids = question_lectures.reject {|qa| qa.empty? }
+    if @lecture_ids == nil then @lecture_ids = question_lectures end
+    #@lecture_ids.map! {|l| l.split}
+    #@lecture_ids.flatten!.uniq!
+  elsif select_type == "sub_areas"
+    #if sub_areas_ids are sent in request
+    sub_areas_ids = question_sub_areas.reject {|qa| qa.empty? }
+    if sub_areas_ids == nil then sub_areas_ids = question_sub_areas end
+    Lecture.where(course_id: course_id).joins(:subject_sub_areas).where(subject_sub_areas: sub_areas_ids).uniq.each do |l|
+      @lecture_ids.append(l.id)
+    end
+    #if lecture ids are sent in request in following format["","1 2 3", "1 3 5"] => map->split->flatten->uniq
+    #@lecture_ids = question_lectures.reject {|qa| qa.empty? }
+    #if @lecture_ids == nil then @lecture_ids = question_lectures end
+    #@lecture_ids.map! {|l| l.split}
+    #@lecture_ids.flatten!.uniq!
+  else
+    area_ids = question_areas.reject {|qa| qa.empty? }
+    if area_ids == nil then area_ids = question_areas end
+      Lecture.where(course_id: course_id).joins(:subject_sub_areas).where("subject_sub_areas.subject_area_id IN (?)", area_ids).uniq do |l|
+        @lecture_ids.append(l.id)
+    end
+    #if lecture ids are sent in request in following format["","1 2 3", "1 3 5"] => map->split->flatten->uniq
+    #@lecture_ids = question_lectures.reject {|qa| qa.empty? }
+    #if @lecture_ids == nil then @lecture_ids = question_lectures end
+    #@lecture_ids.map! {|l| l.split}
+    #@lecture_ids.flatten!.uniq!
+  end
+
+end
+
 def number_of_questions_cannot_exceed_total
 
-  lecture_ids = question_areas.reject {|qa| qa.empty? }
-  if lecture_ids == nil then lecture_ids = question_areas end
-  lecture_ids.map! {|l| l.split}
-  lecture_ids.flatten!.uniq!
+  #lecture_ids = question_areas.reject {|qa| qa.empty? }
+  #if lecture_ids == nil then lecture_ids = question_areas end
+  #lecture_ids.map! {|l| l.split}
+  #lecture_ids.flatten!.uniq!
+  set_lecture_ids()
 
   question_difficulty_id = QuestionDifficulty.find_by(name: "default").id
   if export_type.to_i == 0
     question_type_id = QuestionType.find_by(name: "multichoice").id
     #@questions = Question.where('lecture_id IN (?) AND question_type_id=? AND question_difficulty_id!=?', lecture_ids,question_type_id,question_difficulty_id )
-    questions = Question.where(lecture_id: lecture_ids, question_type_id: question_type_id).to_a
+    questions = Question.where(lecture_id: @lecture_ids, question_type_id: question_type_id).to_a
   else
     #@questions = Question.where('lecture_id IN (?) AND dependant_question_id IS NULL AND question_difficulty_id!=?', lecture_ids, question_difficulty_id)
-    questions = Question.where(lecture_id: lecture_ids, dependant_question_id: nil).to_a
+    questions = Question.where(lecture_id: @lecture_ids, dependant_question_id: nil).to_a
   end
 
   size = questions.size.to_i
@@ -98,15 +136,7 @@ def generate_test_questions(questions_array)
     end
 
     total_difficulty = calculate_total_difficulty(random_questions)
-
-    #p total_difficulty
-    #p min_target..max_target
-    #p "while1 end"
   end
-
-  #random_questions.each {|q| p "id:#{q.id} diff:#{q.difficulty}"}
-  #p total_difficulty
-  #p min_target..max_target
   @questions = random_questions.shuffle
 end
 
@@ -118,7 +148,7 @@ def export_aiken
   @questions.each do |question|
     i=65
     correctA = ""
-    file.write("#{question.content}\n")
+    file.write("#{question.content.gsub(/\R+/, '')}\n")
     question.answers.each do |a|
       file.write("#{i.chr}) #{a.content}\n")
       if a.isCorrect then correctA=i.chr end
@@ -131,7 +161,7 @@ def export_aiken
 end
 
 def export_xml()
-  #TODO add my tags and templates
+  #TODO add my tags
 
   builder = Nokogiri::XML::Builder.new do |xml|
     xml.quiz {
