@@ -16,3 +16,8 @@ a { //color: #ff4411;
    transition: .5s; -moz-transition: .5s; -webkit-transition: .5s; -o-transition: .5s; }
 
 a:hover { color: #a03c21 }
+
+.table_key_cell {
+  @extend p;
+  text-decoration: none;
+}

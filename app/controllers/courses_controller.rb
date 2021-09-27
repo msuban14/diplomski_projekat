@@ -3,11 +3,13 @@ class CoursesController < ApplicationController
 
   # GET /courses or /courses.json
   def index
-    @courses = Course.all
+    @courses = Course.paginate(page: params[:page], :per_page => 50)
   end
 
   # GET /courses/1 or /courses/1.json
   def show
+
+    @lectures=Lecture.where(course_id: @course.id)
   end
 
   # GET /courses/new
@@ -51,7 +53,7 @@ class CoursesController < ApplicationController
   def destroy
     @course.destroy
     respond_to do |format|
-      format.html { redirect_to courses_url, notice: "Course was successfully destroyed." }
+      format.html { redirect_to  courses_url, notice: "Course was successfully destroyed." }
       format.json { head :no_content }
     end
   end

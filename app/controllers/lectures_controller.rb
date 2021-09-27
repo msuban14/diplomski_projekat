@@ -51,7 +51,7 @@ class LecturesController < ApplicationController
   def destroy
     @lecture.destroy
     respond_to do |format|
-      format.html { redirect_to lectures_url, notice: "Lecture was successfully destroyed." }
+      format.html { redirect_back fallback_location: lectures_url, notice: "Lecture was successfully destroyed." }
       format.json { head :no_content }
     end
   end

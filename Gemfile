@@ -25,6 +25,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 #my gems
 gem 'simple_form'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap-style'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
