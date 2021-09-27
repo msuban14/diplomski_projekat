@@ -199,6 +199,13 @@ def export_xml()
               end
             end
           end
+          if q.tags.any? == true
+            xml.tags{
+              q.tags.each do |question_tag|
+                xml.tag { xml.text question_tag.name }
+              end
+            }
+          end
           if q.question_type == "matching"
             q.subquestions.each do |sq|
               xml.subquestion(:format => format) {
