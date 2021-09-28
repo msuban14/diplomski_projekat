@@ -3,11 +3,13 @@ class LecturesController < ApplicationController
 
   # GET /lectures or /lectures.json
   def index
-    @lectures = Lecture.all
+    @lectures = Lecture.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /lectures/1 or /lectures/1.json
   def show
+    #@questions = Question.where(lecture_id: @lecture.id).paginate(page: params[:page], :per_page => 50)
+    @questions = @lecture.questions.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /lectures/new

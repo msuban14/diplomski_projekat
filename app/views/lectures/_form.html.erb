@@ -7,7 +7,15 @@
     <%= f.input :name %>
     <%= f.input :week %>
     <%= f.association :course %>
-    <%= f.association :subject_sub_areas, as: :check_boxes %>
+    
+    <%= f.label "Subject sub areas", class:"form-label"%>
+    <div class="border border-1">
+    <%= f.collection_check_boxes :subject_sub_areas,  SubjectSubArea.all, :id, :name, {:multiple => true,  checked: @lecture.subject_sub_areas.map(&:id) } do |check|%>
+      <div class="form-check ">
+        <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
+      </div>
+    <% end %>
+    </div>
   </div>
 
   <div class="form-actions">

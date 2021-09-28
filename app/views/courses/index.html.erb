@@ -1,4 +1,4 @@
-
+<%= page_heading "courses" %>
 <h1>Courses</h1>
 
 
@@ -24,7 +24,7 @@
       <tr>
         <td style="transform: rotate(0);width:75%;" ><%=link_to course.name, course, class: "table_key_cell stretched-link" %></td>
         <td><p><%= pluralize(course.lectures.size, 'lecture') %> </p></td>
-        <td ><div class="btn-group" role="group"><%= link_to 'Edit', edit_course_path(course), class: "btn btn-outline-warning" %><%= link_to 'Destroy', course, method: :delete, data: { confirm: "Are you sure you want to delete #{course.name}?" }, class: "btn btn-outline-danger" %></div></td>
+        <td ><div class="btn-group" role="group"><%= link_to 'Edit', edit_course_path(course), class: "btn btn-outline-warning" %><%= link_to 'Delete', course, method: :delete, data: { confirm: "Are you sure you want to delete #{course.name}?" }, class: "btn btn-outline-danger" %></div></td>
       </tr>
     <% end %>
 

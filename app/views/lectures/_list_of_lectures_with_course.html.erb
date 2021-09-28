@@ -1,0 +1,29 @@
+
+
+
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th> Lecture name </th>
+      <th> Course name </th>
+      <th>Week</th>
+      <th>Number of questions</th>
+      <th colspan="3"> </th>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lectures.each do |lecture| %>
+      <tr>
+        <td style="transform: rotate(0);width:35%;" ><%=link_to lecture.name, lecture, class: "table_key_cell stretched-link" %></td>
+        <td style="transform: rotate(0);width:35%;"> <%=link_to lecture.course.name, course_path(lecture.course_id), class: "table_key_cell stretched-link" %> </td>
+        <td><p><%= lecture.week %> </p></td>
+        <td><p> <%= lecture.questions.size %></p> <td>
+        <td ><div class="btn-group" role="group"><%= link_to 'Edit', edit_lecture_path(lecture), class: "btn btn-outline-warning" %><%= link_to 'Delete', lecture, method: :delete, data: { confirm: "Are you sure you want to delete #{lecture.name}?" }, class: "btn btn-outline-danger" %></div></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>

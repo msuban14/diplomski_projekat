@@ -1,6 +1,7 @@
+<%= page_heading "edit lecture::#{@lecture.name}" %>
 <h1>Editing Lecture</h1>
 
 <%= render 'form', lecture: @lecture %>
 
 <%= link_to 'Show', @lecture %> |
-<%= link_to 'Back', lectures_path %>
+<%= link_to 'Back', :back %>

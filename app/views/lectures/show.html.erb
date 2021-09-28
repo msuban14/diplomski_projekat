@@ -1,19 +1,45 @@
-<p id="notice"><%= notice %></p>
+<%= page_heading "lecture::#{@lecture.name}" %>
 
-<p>
-  <strong>Name:</strong>
+<h1>
   <%= @lecture.name %>
-</p>
+</h1>
+<%= link_to "Edit #{@lecture.name}", edit_lecture_path(@lecture), class: "btn btn-warning" %>
+<p class="lead"> This lecture is part of <strong> <%= @lecture.course.name %> </strong>, week: <strong><%= @lecture.week%></strong>. </p>
 
-<p>
-  <strong>Week:</strong>
-  <%= @lecture.week %>
-</p>
+<% @hash=Hash.new {|h,k| h[k] = Array.new} %>
+<% @lecture.subject_sub_areas.each do |ssa|%>
+  <% @hash[ssa.subject_area.name.to_s].append(ssa.name) %>
+<% end %>
 
-<p>
-  <strong>Course:</strong>
-  <%= @lecture.course_id %>
-</p>
 
-<%= link_to 'Edit', edit_lecture_path(@lecture) %> |
-<%= link_to 'Back', lectures_path %>
+
+
+<p >This lecture covered:</p>
+<div style="width:50%">
+<table class="table table-success table-striped table-sm">
+  <thead>
+    <tr>
+      <th> Subject Area</th>
+      <th> Subject Sub Areas </th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @hash.each do |subject_area, subject_sub_areas| %>
+    <tr><td style="width:25%"><%= subject_area %></td><td><%= subject_sub_areas.join(', ')%></td></tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+
+<br>
+
+<% if @lecture.questions.any? %>
+<p> The questions(<%=@lecture.questions.size%>) that can be generated from this lecture:</p>
+<%= render 'questions/list_of_questions_wo_lecture' %>
+<% else %>
+<p>The lecture doesn't have any questions yet.</p>
+<% end %>
+
+
+
+<%= link_to 'Back', :back %>
