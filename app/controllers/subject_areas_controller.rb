@@ -3,11 +3,12 @@ class SubjectAreasController < ApplicationController
 
   # GET /subject_areas or /subject_areas.json
   def index
-    @subject_areas = SubjectArea.all
+    @subject_areas = SubjectArea.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /subject_areas/1 or /subject_areas/1.json
   def show
+      @subject_sub_areas=SubjectSubArea.where(subject_area_id: @subject_area.id)
   end
 
   # GET /subject_areas/new
