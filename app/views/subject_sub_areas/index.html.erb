@@ -1,29 +1,14 @@
-<p id="notice"><%= notice %></p>
+<%= page_heading "lectures" %>
 
 <h1>Subject Sub Areas</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Subject area</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @subject_sub_areas.each do |subject_sub_area| %>
-      <tr>
-        <td><%= subject_sub_area.name %></td>
-        <td><%= subject_sub_area.subject_area_id %></td>
-        <td><%= link_to 'Show', subject_sub_area %></td>
-        <td><%= link_to 'Edit', edit_subject_sub_area_path(subject_sub_area) %></td>
-        <td><%= link_to 'Destroy', subject_sub_area, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<p> List of all courses </p>
+<br>
+<%= link_to 'New Subject Sub Area', new_subject_sub_area_path, class: "btn btn-primary" %>
+<br><br>
+<%= will_paginate @subject_sub_areas, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+<%= render 'subject_sub_areas/list_of_subject_sub_areas_with_subject_area'%>
+<%= will_paginate @subject_sub_areas, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 
 <br>
 
-<%= link_to 'New Subject Sub Area', new_subject_sub_area_path %>
+<%= link_to 'New Subject Sub Area', new_subject_sub_area_path, class: "btn btn-primary" %>

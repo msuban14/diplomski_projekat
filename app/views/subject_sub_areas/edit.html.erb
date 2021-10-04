@@ -1,6 +1,7 @@
-<h1>Editing Subject Sub Area</h1>
+<%= page_heading "edit subject sub area::#{@subject_sub_area.name}" %>
+<h1>Editing Subject Sub Area <%= @subject_sub_area.name%></h1>
 
 <%= render 'form', subject_sub_area: @subject_sub_area %>
 
 <%= link_to 'Show', @subject_sub_area %> |
-<%= link_to 'Back', subject_sub_areas_path %>
+<%= link_to 'Back', :back %>

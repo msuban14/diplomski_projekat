@@ -3,11 +3,12 @@ class SubjectSubAreasController < ApplicationController
 
   # GET /subject_sub_areas or /subject_sub_areas.json
   def index
-    @subject_sub_areas = SubjectSubArea.all
+    @subject_sub_areas = SubjectSubArea.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /subject_sub_areas/1 or /subject_sub_areas/1.json
   def show
+    @lectures = @subject_sub_area.lectures
   end
 
   # GET /subject_sub_areas/new
@@ -51,7 +52,7 @@ class SubjectSubAreasController < ApplicationController
   def destroy
     @subject_sub_area.destroy
     respond_to do |format|
-      format.html { redirect_to subject_sub_areas_url, notice: "Subject sub area was successfully destroyed." }
+      format.html { redirect_back fallback_location: subject_sub_areas_url, notice: "Subject sub area was successfully destroyed." }
       format.json { head :no_content }
     end
   end
