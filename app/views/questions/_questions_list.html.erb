@@ -1,5 +1,5 @@
 
-<table class="table">
+<table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>Content</th>
@@ -13,13 +13,16 @@
   <tbody>
     <% @questions.each do |question| %>
       <tr>
-        <td><%= question.content %></td>
-        <td><%= question.question_type.name %></td>
-        <td><%= question.lecture.name %></td>
-        <td><%= question.question_difficulty.name %></td>
-        <td><%= link_to 'Show', question %></td>
-        <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td style="transform: rotate(0);width:65%;"><%=link_to question.content, question, class:"table_key_cell stretched-link" %></td>
+        <td><p><%= question.question_type.name %></p></td>
+        <td><p><%= question.lecture.name %></p></td>
+        <td><p><%= question.question_difficulty.name %></p></td>
+        <td><div class="btn-group" role="group">
+              <%= link_to 'Edit', edit_question_path(question), class:"btn btn-outline-warning" %>
+              <%= link_to 'Delete', question, method: :delete, data: { confirm: "Are you sure you want to delete question id:#{question.id}?" }, class:"btn btn-outline-danger" %>
+            </div>
+        </td>
+
       </tr>
     <% end %>
   </tbody>

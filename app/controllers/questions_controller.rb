@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions or /questions.json
   def index
-    @questions = Question.where(dependant_question: nil)
+    @questions = Question.where(dependant_question: nil).paginate(page: params[:page], :per_page => 50)
   end
 
   # GET /questions/1 or /questions/1.json
@@ -64,17 +64,7 @@ class QuestionsController < ApplicationController
   end
 
   def lectures
-    #branch import types, maybe import_params to procure needed params, such as import type and additional data
-    #p "******************************"
-    #p params
-    #p "******************************"
-    #p 'import type: ' + params[:import_type]
-
-    #Question.import_aiken(params[:file],params[:lecture_id])
-    @questions = Question.where(lecture_id: params[:id]).order(created_at: :desc)
-
-    #users = User.where(name: 'David', occupation: 'Code Artist').order(created_at: :desc)
-
+    @questions = Question.where(lecture_id: params[:id], dependant_question: nil).order(created_at: :desc)
   end
   private
     # Use callbacks to share common setup or constraints between actions.

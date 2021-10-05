@@ -8,7 +8,14 @@
     <%= f.association :question_type %>
     <%= f.association :lecture %>
     <%= f.association :question_difficulty %>
-    <%= f.association :tags, as: :check_boxes %>
+    <%= f.label "Tags", class:"form-label"%>
+    <div class="border border-1">
+    <%= f.collection_check_boxes :tag_ids,  Tag.all, :id, :name, {:multiple => true,  checked: @question.tags.map(&:id) } do |check|%>
+      <div class="form-check ">
+        <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
+      </div>
+    <% end %>
+    </div>
   </div>
 
   <div class="form-actions">
