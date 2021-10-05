@@ -1,9 +1,13 @@
-<p id="notice"><%= notice %></p>
+<%= page_heading "question type::#{@question_type.name}" %>
 
 <p>
   <strong>Name:</strong>
   <%= @question_type.name %>
 </p>
+<p>
+    Number of Questions with this type: <strong> <%= @question_type.questions.size%> </strong>
+</p>
 
 <%= link_to 'Edit', edit_question_type_path(@question_type) %> |
-<%= link_to 'Back', question_types_path %>
+<%= link_to 'Delete',  @question_type, method: :delete, data: { confirm: "Are you sure you want to delete #{@question_type.name}?" }, class: "link-danger"%>|
+<%= link_to 'Back', :back %>

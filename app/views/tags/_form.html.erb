@@ -5,11 +5,61 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.association :subject_sub_areas, as: :check_boxes %>
-    <%= f.association :questions, as: :check_boxes %>
+    <div  class="btn btn-info" id= "btn_ssa"  onclick="toggle_ssa()"> Show Sub Areas</div>
+    <div class="btn btn-info" id="btn_q" onclick="toggle_q()"> Show Questions </div>
+    <div id="show_ssa"  style="display: none;">
+
+      <%= f.label "Subject sub areas", class:"form-label"%>
+      <div class="border border-1">
+      <%= f.collection_check_boxes :subject_sub_area_ids,  SubjectSubArea.all, :id, :name, {:multiple => true,  checked: @tag.subject_sub_areas.map(&:id) } do |check|%>
+        <div class="form-check ">
+          <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+
+    <div id="show_q"  style="display: none;">
+      <%= f.label "Questions", class:"form-label"%>
+      <div class="border border-1">
+      <%= f.collection_check_boxes :question_ids,  Question.all, :id, :to_label, {:multiple => true,  checked: @tag.questions.map(&:id) } do |check|%>
+        <div class="form-check ">
+          <%= check.check_box(class: "form-check-input") %> <%= check.label(class:"form-check-label") %>
+        </div>
+      <% end %>
+      </div>
+    </div>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
 <% end %>
+
+
+<script type="text/javascript">
+    function toggle_ssa(){
+      var x = document.getElementById("show_ssa");
+      var y = document.getElementById("btn_ssa");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+        y.innerHTML = "Hide Sub Areas"
+      } else {
+        x.style.display = "none";
+        y.innerHTML="Show Sub Areas"
+      };
+    }
+
+    function toggle_q(){
+
+      var x = document.getElementById("show_q");
+      var y = document.getElementById("btn_q");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+        y.innerHTML = "Hide Questions"
+      } else {
+        x.style.display = "none";
+        y.innerHTML = "Show Questions"
+      };
+    }
+</script>

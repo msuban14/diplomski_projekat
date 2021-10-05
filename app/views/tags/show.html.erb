@@ -1,9 +1,25 @@
-<p id="notice"><%= notice %></p>
+<%= page_heading "tag::#{@tag.name}" %>
+<h1>
 
-<p>
-  <strong>Name:</strong>
   <%= @tag.name %>
-</p>
+</h1>
+<%= link_to "Edit #{@tag.name}", edit_tag_path(@tag), class:"btn btn-warning" %>
+<br><br>
 
-<%= link_to 'Edit', edit_tag_path(@tag) %> |
-<%= link_to 'Back', tags_path %>
+<div class="grid-container">
+
+    <div class="grid-child overflow-auto border">
+        <h6>Subject Sub Areas</h6>
+        <%= render 'subject_sub_areas/list_of_subject_sub_areas_with_subject_area'  %>
+    </div>
+
+    <div class="grid-child overflow-auto border">
+      <h6>Questions</h6>
+      <%= render 'questions/list_of_questions_wo_lecture'  %>
+
+    </div>
+
+</div>
+
+
+<%= link_to 'Back', :back %>

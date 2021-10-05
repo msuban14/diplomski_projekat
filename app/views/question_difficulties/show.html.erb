@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<%= page_heading "question difficulty::#{@question_difficulty.name}" %>
 
 <p>
   <strong>Name:</strong>
@@ -11,4 +11,4 @@
 </p>
 
 <%= link_to 'Edit', edit_question_difficulty_path(@question_difficulty) %> |
-<%= link_to 'Back', question_difficulties_path %>
+<%= link_to 'Back', :back %>

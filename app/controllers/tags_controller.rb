@@ -3,11 +3,13 @@ class TagsController < ApplicationController
 
   # GET /tags or /tags.json
   def index
-    @tags = Tag.all
+    @tags = Tag.paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /tags/1 or /tags/1.json
   def show
+    @questions=@tag.questions.paginate(page: params[:page], :per_page => 50)
+    @subject_sub_areas=@tag.subject_sub_areas
   end
 
   # GET /tags/new
