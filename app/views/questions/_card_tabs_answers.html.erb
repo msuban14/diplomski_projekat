@@ -1,0 +1,26 @@
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Answers</h5>
+        <ul class="nav nav-tabs card-header-tabs" data-bs-tabs="tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#default_answers">Default</a>
+            </li>
+            <% if @question.format=="html" %>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#html_answers">HTML</a>
+            </li>
+            <% end %>
+        </ul>
+    </div>
+    <div class="card-body tab-content">
+        <div class="tab-pane active" id="default_answers">
+            <%= render 'answers/answers_list'%>
+        </div>
+        <% if @question.format=="html" %>
+        <div class="tab-pane" id="html_answers">
+            <%= render 'answers/answers_list_html'%>
+        </div>
+        <% end %>
+
+    </div>
+</div>

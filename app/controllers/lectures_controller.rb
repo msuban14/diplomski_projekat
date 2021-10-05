@@ -9,7 +9,7 @@ class LecturesController < ApplicationController
   # GET /lectures/1 or /lectures/1.json
   def show
     #@questions = Question.where(lecture_id: @lecture.id).paginate(page: params[:page], :per_page => 50)
-    @questions = @lecture.questions.paginate(page: params[:page], :per_page => 30)
+    @questions = @lecture.questions.where(dependant_question: nil).paginate(page: params[:page], :per_page => 30)
   end
 
   # GET /lectures/new
