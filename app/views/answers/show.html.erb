@@ -1,19 +1,47 @@
+<%= page_heading "asnwer::question id:#{@answer.question.id}" %>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Content</h5>
+        <ul class="nav nav-tabs card-header-tabs" data-bs-tabs="tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#default">Default</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#raw">Raw</a>
+            </li>
+            <% if @answer.question.format=="html" %>
+            <li class="nav-item">
+              <a class="nav-link" data-bs-toggle="tab" href="#html">HTML</a>
+            </li>
+            <% end %>
+        </ul>
+    </div>
+    <div class="card-body tab-content">
+        <div class="tab-pane active" id="default">
+            <p class="card-text"><%= @answer.content %></p>
+        </div>
+        <div class="tab-pane" id="raw">
+            <%= @answer.content %>
+        </div>
+        <% if @answer.question.format=="html" %>
+        <div class="tab-pane" id="html">
+            <p class=" card-text"><%= sanitize @question.content %></p>
+        </div>
+        <% end %>
+
+    </div>
+</div>
 
 
 <p>
-  <strong>Content:</strong>
-  <%= @answer.content %>
-</p>
-
-<p>
-  <strong>Iscorrect:</strong>
+  <strong>Correct answer?:</strong>
   <%= @answer.isCorrect %>
 </p>
 
 <p>
-  <strong>Question:</strong>
-  <%= @answer.question.to_label %>
+  <strong><%= link_to "Question", @answer.question, class:"link-dark", style:"text-decoration:none;"%></strong>
+  <%= @answer.question.content %>
 </p>
 
 <%= link_to 'Edit', edit_answer_path(@answer) %> |
-<%= link_to 'Back', answers_path %>
+<%= link_to 'Back', :back %>
