@@ -1,5 +1,6 @@
 class SubjectAreasController < ApplicationController
   before_action :set_subject_area, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /subject_areas or /subject_areas.json
   def index

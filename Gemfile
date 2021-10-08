@@ -28,6 +28,7 @@ gem 'simple_form'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap-style'
 gem 'devise'
+gem 'rails_admin', '~> 2.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

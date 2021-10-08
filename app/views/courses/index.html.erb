@@ -2,20 +2,23 @@
 <h1>Courses</h1>
 
 
+
+<% if current_user.admin %>
+  <%= link_to 'Add new course', new_course_path, class: "btn btn-primary" %>
+<% end %>
+
+<br>
+<br>
 <p> List of all courses </p>
-
-<%= link_to 'Add new course', new_course_path, class: "btn btn-primary" %>
-
-<br>
-<br>
 <%= will_paginate @courses, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 <table class="table table-striped table-hover">
   <thead>
     <tr>
       <th> Course Name </th>
       <th>Number Of Lectures</th>
+      <% if current_user.admin %>
       <th colspan="3"> </th>
-
+      <% end %>
     </tr>
   </thead>
 
@@ -24,7 +27,9 @@
       <tr>
         <td style="transform: rotate(0);width:75%;" ><%=link_to course.name, course, class: "table_key_cell stretched-link" %></td>
         <td><p><%= pluralize(course.lectures.size, 'lecture') %> </p></td>
+        <% if current_user.admin %>
         <td ><div class="btn-group" role="group"><%= link_to 'Edit', edit_course_path(course), class: "btn btn-outline-warning" %><%= link_to 'Delete', course, method: :delete, data: { confirm: "Are you sure you want to delete #{course.name}?" }, class: "btn btn-outline-danger" %></div></td>
+        <% end %>
       </tr>
     <% end %>
 
@@ -35,5 +40,6 @@
 <%= will_paginate @courses, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 
 <br>
-
-<%= link_to 'Add new course', new_course_path, class: "btn btn-primary" %>
+<% if current_user.admin %>
+  <%= link_to 'Add new course', new_course_path, class: "btn btn-primary" %>
+<% end %>

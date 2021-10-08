@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users, :skip => [:registrations], controllers: {
-    sessions: 'users/sessions'
-  }
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  #devise_for :users, :skip => [:registrations], controllers: {
+  #  sessions: 'users/sessions'
+  #}
+  devise_for :users
   devise_scope :user do
     get 'sign_in', to: 'devise/sessions#new'
   end
@@ -32,5 +34,5 @@ Rails.application.routes.draw do
 
 
   #tmp root
-  root to: 'imports#new'
+  root to: 'home#index'
 end

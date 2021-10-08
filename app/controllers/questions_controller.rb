@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /questions or /questions.json
   def index
@@ -58,7 +59,7 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_url, notice: "Question was successfully destroyed." }
+      format.html { redirect_back fallback_location: questions_url, notice: "Question was successfully destroyed." }
       format.json { head :no_content }
     end
   end

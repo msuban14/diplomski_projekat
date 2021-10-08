@@ -1,4 +1,5 @@
 class ImportsController < ApplicationController
+  before_action :authenticate_user!
   def new
     @import = Import.new
   end
