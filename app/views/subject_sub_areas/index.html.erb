@@ -1,14 +1,17 @@
 <%= page_heading "lectures" %>
 
-<h1>Subject Sub Areas</h1>
+<h4>Subject Sub Areas</h4>
 <p> List of all courses </p>
 <br>
+<% if current_user.admin %>
 <%= link_to 'New Subject Sub Area', new_subject_sub_area_path, class: "btn btn-primary" %>
+<% end %>
 <br><br>
 <%= will_paginate @subject_sub_areas, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 <%= render 'subject_sub_areas/list_of_subject_sub_areas_with_subject_area'%>
 <%= will_paginate @subject_sub_areas, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 
 <br>
-
+<% if current_user.admin %>
 <%= link_to 'New Subject Sub Area', new_subject_sub_area_path, class: "btn btn-primary" %>
+<% end %>

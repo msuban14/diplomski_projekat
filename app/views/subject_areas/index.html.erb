@@ -1,11 +1,11 @@
 <%= page_heading "subject areas" %>
-<h1>Subject Areas</h1>
+<h4>Subject Areas</h4>
 
 
 <p> List of all subject areas </p>
-
+<% if current_user.admin %>
 <%= link_to 'Add new subject area', new_subject_area_path, class: "btn btn-primary" %>
-
+<% end %>
 <br>
 <br>
 <%= will_paginate @subject_areas, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
@@ -24,7 +24,11 @@
       <tr>
         <td style="transform: rotate(0);width:75%;" ><%=link_to subject_area.name, subject_area, class: "table_key_cell stretched-link" %></td>
         <td><p><%= pluralize(subject_area.subject_sub_areas.size, 'sub area') %> </p></td>
-        <td ><div class="btn-group" role="group"><%= link_to 'Edit', edit_subject_area_path(subject_area), class: "btn btn-outline-warning" %><%= link_to 'Delete', subject_area, method: :delete, data: { confirm: "Are you sure you want to delete #{subject_area.name}?" }, class: "btn btn-outline-danger" %></div></td>
+        <td>
+          <% if current_user.admin %>
+          <div class="btn-group" role="group"><%= link_to 'Edit', edit_subject_area_path(subject_area), class: "btn btn-outline-warning" %><%= link_to 'Delete', subject_area, method: :delete, data: { confirm: "Are you sure you want to delete #{subject_area.name}?" }, class: "btn btn-outline-danger" %></div>
+          <% end %>
+        </td>
       </tr>
     <% end %>
 
@@ -35,5 +39,6 @@
 <%= will_paginate @courses, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 
 <br>
-
+<% if current_user.admin %>
 <%= link_to 'Add new subject area', new_subject_area_path, class: "btn btn-primary" %>
+<% end %>

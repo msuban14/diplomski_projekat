@@ -5,6 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <% if current_user %>
       <ul class="navbar-nav me-auto">
 
         <li class="nav-item">
@@ -32,13 +33,16 @@
             <li><%= link_to 'Questions', questions_path, class:"dropdown-item"%></li>
             <li><%= link_to 'Question Types', question_types_path, class:"dropdown-item"%></li>
             <li><%= link_to 'Question Difficulties', question_difficulties_path, class:"dropdown-item"%></li>
+            <% if current_user.admin %>
             <li><%= link_to 'Answers', answers_path, class:"dropdown-item"%></li>
+            <% end %>
           </ul>
         </li>
         <li class="nav-item">
           <%= link_to 'Tags', tags_path, class:"nav-link active" %>
         </li>
       </ul>
+      <% end %>
       <ul class="navbar-nav ms-auto">
         <% if current_user %>
         <li class="nav-item dropdown">

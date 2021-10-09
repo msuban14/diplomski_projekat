@@ -1,7 +1,9 @@
 <%= page_heading "subject sub area::#{@subject_sub_area.name}" %>
-<h1> <%= @subject_sub_area.name%> </h1>
+<h4> <%= @subject_sub_area.name%> </h4>
+<% if current_user.admin %>
 <%= link_to "Edit #{@subject_sub_area.name}", edit_subject_sub_area_path(@subject_sub_area), class:"btn btn-warning" %>
 <br><br>
+<% end %>
 <p> <%= @subject_sub_area.name %> is part of main subject area: <strong> <%= @subject_sub_area.subject_area.name %> </strong> </p>
 
 <p>

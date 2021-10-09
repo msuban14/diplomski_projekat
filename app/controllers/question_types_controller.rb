@@ -1,6 +1,7 @@
 class QuestionTypesController < ApplicationController
   before_action :set_question_type, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :is_admin!,  except: [ :index ]
 
   # GET /question_types or /question_types.json
   def index

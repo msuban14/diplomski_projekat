@@ -1,27 +1,31 @@
 <%= page_heading "question difficulties" %>
 
-<h1>Question Difficulties</h1>
+<h4>Question Difficulties</h4>
 
 <table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>Name</th>
       <th>Numerical representation</th>
+
       <th colspan="3"></th>
+
     </tr>
   </thead>
 
   <tbody>
     <% @question_difficulties.each do |question_difficulty| %>
       <tr>
-        <td style="transform: rotate(0);width:60%"><%=  link_to question_difficulty.name, question_difficulty, class:"table_key_cell stretched-link" %></td>
+        <td style="transform: rotate(0);width:80%"><%=  link_to question_difficulty.name, question_difficulty, class:"table_key_cell stretched-link" %></td>
         <td><%= question_difficulty.numerical_representation %></td>
 
         <td>
+          <% if current_user.admin %>
           <div class="btn-group" role="group">
             <%= link_to 'Edit', edit_question_difficulty_path(question_difficulty), class:"btn btn-outline-warning" %>
             <%= link_to 'Delete', question_difficulty, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-outline-danger" %>
           </div>
+          <% end %>
        </td>
       </tr>
     <% end %>
@@ -29,5 +33,6 @@
 </table>
 
 <br>
-
+<% if current_user.admin %>
 <%= link_to 'New Question Difficulty', new_question_difficulty_path , class:"btn btn-primary"%>
+<% end %>

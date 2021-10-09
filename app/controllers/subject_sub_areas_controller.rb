@@ -1,6 +1,7 @@
 class SubjectSubAreasController < ApplicationController
   before_action :set_subject_sub_area, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :is_admin!,  except: [:index , :show]
 
   # GET /subject_sub_areas or /subject_sub_areas.json
   def index

@@ -1,11 +1,11 @@
 <%= page_heading "questions" %>
 
-<h1>Questions</h1>
-<%= link_to 'New Question', new_question_path, class:"btn btn-primary" %>
+<h3>Questions</h3>
+<%= link_to 'Import questions', imports_path, class:"btn btn-primary" %>
 <br><br>
 <%= will_paginate @questions, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 <%= render 'questions/questions_list', questions:@questions%>
 <%= will_paginate @questions, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 <br>
 
-<%= link_to 'New Question', new_question_path, class:"btn btn-primary" %>
+<%= link_to 'Import questions', imports_path, class:"btn btn-primary" %>

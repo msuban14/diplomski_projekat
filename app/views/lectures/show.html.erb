@@ -1,8 +1,8 @@
 <%= page_heading "lecture::#{@lecture.name}" %>
 
-<h1>
+<h4>
   <%= @lecture.name %>
-</h1>
+</h4>
 <%= link_to "Edit #{@lecture.name}", edit_lecture_path(@lecture), class: "btn btn-warning" %>
 <p class="lead"> This lecture is part of <strong> <%= @lecture.course.name %> </strong>, week: <strong><%= @lecture.week%></strong>. </p>
 
@@ -34,7 +34,7 @@
 <br>
 
 <% if @lecture.questions.any? %>
-<p> The questions(<%=@lecture.questions.size%>) that can be generated from this lecture:</p>
+<p> The questions(<%=@lecture.generatable_questions.size%>) that can be generated from this lecture:</p>
 <%= render 'questions/list_of_questions_wo_lecture' %>
 <% else %>
 <p>The lecture doesn't have any questions yet.</p>
