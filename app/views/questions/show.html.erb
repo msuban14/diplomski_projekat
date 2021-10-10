@@ -52,6 +52,17 @@
   <%= @question.question_difficulty.name %>
 </p>
 
+<p>
+  <strong>Tags:</strong>
+    <% @question.tags.each do |q_tag| %>
+      <% if @question.tags.last == q_tag %>
+        <%=link_to q_tag.name, q_tag, style: "text-decoration: none;", class:"link-secondary"%>
+      <% else %>
+        <%=link_to q_tag.name, q_tag, style: "text-decoration: none;", class:"link-secondary"%>,
+      <% end %>
+    <% end %>
+</p>
+
 <% if @question.question_type.name == "matching" and @question.dependant_question== nil%>
 
   <%= render 'questions/card_tabs_subq'%>

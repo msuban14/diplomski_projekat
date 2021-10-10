@@ -7,3 +7,11 @@ task :randomize_diff => :environment do
     q.save
   end
 end
+
+task :add_tags => :environment do
+  prng = Random.new
+  Question.where.missing(:tags).each do |q|
+    q.tags << Tag.find(Tag.pluck(:id).sample(prng.rand(0..5)))
+    q.save
+  end
+end
